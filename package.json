@@ -1,9 +1,9 @@
 {
-  "name": "exuberant-ctags",
-  "displayName": "Exuberant CTags",
-  "description": "Exuberant CTags support for VS Code",
-  "version": "0.0.2",
-  "publisher": "chriswheeldon",
+  "name": "tell-ctags",
+  "displayName": "Tell CTags",
+  "description": "Tell CTags support for VS Code",
+  "version": "1.0.0",
+  "publisher": "epascal",
   "engines": {
     "vscode": "^1.23.0"
   },
@@ -18,7 +18,8 @@
     "onLanguage:c",
     "onLanguage:cpp",
     "onCommand:extension.reloadCTags",
-    "onCommand:extension.regenerateCTags"
+    "onCommand:extension.regenerateCTags",
+    "onCommand:extension.gotoCTags"
   ],
   "main": "./out/extension",
   "contributes": {
@@ -30,6 +31,17 @@
       {
         "command": "extension.regenerateCTags",
         "title": "Ctags Support: regenerate tags file"
+      },
+      {
+        "command": "extension.gotoCTags",
+        "title": "Ctags Support: go to pointed tag"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "extension.gotoCTags",
+        "key": "ctrl+oem_1",
+        "when": "editorTextFocus"
       }
     ]
   },
@@ -46,7 +58,7 @@
     "tslint": "^5.8.0",
     "tslint-config-prettier": "^1.12.0",
     "typescript": "^2.6.1",
-    "vscode": "^1.1.6"
+    "vscode": "^1.1.21"
   },
   "prettier": {
     "singleQuote": true

@@ -4,7 +4,7 @@ import * as vscode from 'vscode';
 import * as ctags from './ctags';
 import * as util from './util';
 
-const tagsfile = 'tags';
+const tagsfile = 'tags_vscode';
 let ctagsIndex: ctags.CTagsIndex;
 
 class CTagsDefinitionProvider implements vscode.DefinitionProvider {
@@ -93,10 +93,29 @@ function regenerateCTags() {
   );
 }
 
+function gotoCTags() {
+  const editor: vscode.TextEditor | undefined = vscode.window.activeTextEditor ? vscode.window.activeTextEditor : undefined;
+  if (editor) {
+    const query = editor.document.getText(editor.document.getWordRangeAtPosition(editor.selection.active));
+    ctagsIndex.lookup(query).then(matches => {
+      if (!matches) {
+        util.log(`"${query}" has no matches`);
+        return;
+      }
+      const match = matches[0];
+      vscode.window.showTextDocument(vscode.Uri.file(match.path), {
+        selection: new vscode.Range(new vscode.Position(match.lineno, 0), new vscode.Position(match.lineno, 0)),
+        viewColumn: vscode.ViewColumn.Beside,
+        preserveFocus: true
+      });
+    });
+  }
+}
+
 export function activate(context: vscode.ExtensionContext) {
   util.log('CTags extension active');
 
-  ctagsIndex = new ctags.CTagsIndex(vscode.workspace.rootPath || '', tagsfile);
+  ctagsIndex = new ctags.CTagsIndex(vscode.workspace.rootPath + '/src/' || '', tagsfile);
   reindexTags();
 
   const definitionsProvider = new CTagsDefinitionProvider();
@@ -123,8 +142,16 @@ export function activate(context: vscode.ExtensionContext) {
     }
   );
 
+  const gotoCTagsCommand = vscode.commands.registerCommand(
+    'extension.gotoCTags',
+    () => {
+      gotoCTags();
+    }
+  );
+
   context.subscriptions.push(reloadCTagsCommand);
   context.subscriptions.push(regenerateCTagsCommand);
+  context.subscriptions.push(gotoCTagsCommand);
 }
 
-export function deactivate() {}
+export function deactivate() { }

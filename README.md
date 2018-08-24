@@ -1,4 +1,4 @@
-# Exuberant CTags extension for VSCode
+# Tell CTags extension for VSCode
 
 A CTags definitions provider for VSCode.
 
@@ -14,7 +14,7 @@ A CTags definitions provider for VSCode.
 
 The extension looks for a file called 'tags' in the workspace root directory. If this file cannot be found a new tags file can be created
 and indexed using the _regenerate tags file_ command. This requires the ctags command to be on your path and will generate tags for source files
-in the workspace root directory recursively (equivalent to running: `ctags -R -f tags .`).
+in the workspace root directory recursively (equivalent to running: `gen_TELL`).
 
 ## Known Issues
 
