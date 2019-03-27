@@ -9,6 +9,7 @@ A CTags definitions provider for VSCode.
 - Handles symbols with multiple definitions.
 - Provides commands for regenerating and reindexing the tags file.
 - Integrates with the status bar to provide progress updates during tags file generation and indexing.
+- Use key shortcut CTRL + è ([) to invoke search engine
 
 ## Requirements
 
